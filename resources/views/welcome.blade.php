@@ -54,7 +54,7 @@
 <body>
     <div class="container">
         <div class="relative sm:flex sm:justify-center sm:items-center bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-white-900 selection:bg-red-500 selection:text-white">
-            <h1>East or west niha is the best</h1>
+            <h1>East or west niha is the BEST</h1>
             <ul>
                 @auth
                 <button onclick="window.location.href='{{ route('home') }}'" class="profile-button">হোম</button>
