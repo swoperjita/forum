@@ -25,7 +25,7 @@
                 cursor: pointer;">খুঁজুন
                 </button>
             </form>
-            <a href="{{ auth()->check() ? route('show') : route('login') }}">
+            {{-- <a href="{{ auth()->check() ? route('show') : route('login') }}">
                 <button id="myProfileButton" style="background-color: #420a494d; /* Same background color as search button */
                     border: 1px solid rgb(23, 11, 29);
                     color: rgb(255, 255, 255);
@@ -37,7 +37,7 @@
                     margin-top: 20px; /* Added margin */
                     cursor: pointer;">আমার প্রোফাইল
                 </button>
-            </a>
+            </a> --}}
             <div class="row mt-2">
                 <div class="col-md-12 text-center">
                     <form action="{{ route('compose') }}" method="GET" style="display: inline-block; margin-right: 10px;">
