@@ -83,6 +83,9 @@ class AdminController extends Controller
         // Pass the post data to the admin dashboard view
         return view('admin')->with('post', $post);
     }
+    public function anotherPage() {
+        return view('another'); // assuming you create admin/another.blade.php
+    }
     
     
 

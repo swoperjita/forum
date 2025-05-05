@@ -97,3 +97,4 @@ Route::get('/admin/dashboard', [AdminController::class, 'manage'])->name('admin.
 Route::post('/admin/dashboard', [AdminController::class, 'adminLogin'])->name('admin.login.submit');
 
 Route::get('/admin', [AdminController::class, 'showAdminLoginForm'])->name('admin.login');
+Route::get('/admin/another-page', [AdminController::class, 'anotherPage'])->name('admin.anotherPage');

@@ -104,6 +104,10 @@
             </div>
         </nav>
         <!-- Main Content -->
+        <div class="text-right my-3">
+            <a href="{{ route('admin.anotherPage') }}" class="btn btn-primary">Go to Another Page</a>
+        </div>
+        
         <main class="container">
             <div class="row">
                 <div class="col-md-8">
