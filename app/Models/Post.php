@@ -9,7 +9,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'body', 'user_id', 'anonymous', 'likes', 'solved', 'reported']; 
+    protected $fillable = ['title', 'body', 'user_id', 'anonymous', 'likes', 'solved', 'reported','is_draft']; 
 
     // Define the 'solved' property
     protected $attributes = [

@@ -3,16 +3,20 @@
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EmailController;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\FollowController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LikeController;
-use App\Http\Controllers\AdminController; 
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController; 
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\UserBlockController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\DraftController;
 
 /*
 |--------------------------------------------------------------------------
