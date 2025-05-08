@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\EmailController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -97,4 +98,5 @@ Route::get('/admin/dashboard', [AdminController::class, 'manage'])->name('admin.
 Route::post('/admin/dashboard', [AdminController::class, 'adminLogin'])->name('admin.login.submit');
 
 Route::get('/admin', [AdminController::class, 'showAdminLoginForm'])->name('admin.login');
-Route::get('/admin/another-page', [AdminController::class, 'anotherPage'])->name('admin.anotherPage');
+Route::get('send-email',[EmailController::class,'sendEmail'])->name('admin.anotherPage');
+//Route::get('send-email',[EmailController::class,'sendEmail']);

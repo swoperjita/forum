@@ -104,8 +104,17 @@
             </div>
         </nav>
         <!-- Main Content -->
-        <div class="text-right my-3">
-            <a href="{{ route('admin.anotherPage') }}" class="btn btn-primary">Go to Another Page</a>
+        <div  class="text-right my-3 mr-4">
+            <button style="background-color: #591f614d; 
+                    border:1px solid rgb(23, 11, 29);
+                    color: rgb(121, 32, 153);
+                    padding: 5px 32px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 16px;
+                    margin: 2px 1px;
+                    cursor: pointer;"><a href="/send-email/" style="color: rgb(19, 18, 19); text-decoration: none;">warning button</a></button>
         </div>
         
         <main class="container">
@@ -203,4 +212,3 @@
     </div>
     {{-- @endsection --}}
 </body>
-</html>
