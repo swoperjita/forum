@@ -1,15 +1,15 @@
 <?php
 namespace App\Http\Controllers;
-
+//use Notification;
 use auth;
 use view;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Notification;
 use App\Notifications\SendEmailNotification;
 use App\Models\UserBlock;
 use App\Models\Draft;
+use Illuminate\Support\Facades\Notification;
 
 class PostController extends Controller
 {   
@@ -61,14 +61,31 @@ class PostController extends Controller
     // Set user_id, anonymous, and category fields
     $incomingFields['user_id'] = auth()->id();
     $incomingFields['anonymous'] = $request->has('anonymous');
+    $incomingFields['is_draft'] = $request->has('saveDraft');
     $incomingFields['category'] = $request->category; // Set category
 
 
     // Create the post
     Post::create($incomingFields);
+    if ($incomingFields['is_draft']) {
+        // Fetch all drafts of the current user
+        $drafts = Post::where('is_draft', true)
+                      ->where('user_id', auth()->id())
+                      ->get();
+        
+        // Store drafts in session
+        session(['drafts' => $drafts]);
+
+        return redirect()->route('drafts.index')->with('success', 'Post saved as draft.');
+    } else {
+        // Save the post as published
+        // For example, you can publish the post by setting published_at field
+        // You can also redirect to the post's detail page or any other desired page
+        return redirect('/')->with('success', 'Post published successfully.');
+    }
 
     // Redirect to the home page
-    return redirect('/home');
+    //return redirect('/home');
 }
 public function search(Request $request)
     {

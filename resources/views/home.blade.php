@@ -70,7 +70,7 @@
                             ইনবক্স
                         </button>
                     </form>
-                    <a href="{{ route('home') }}"><button style="background-color: #420a494d; /* Same background color as search button */
+                    <a href="{{ route('drafts.index') }}"><button style="background-color: #420a494d; /* Same background color as search button */
                         border: 1px solid rgb(23, 11, 29);
                         color: rgb(255, 255, 255);
                         padding: 10px 32px; /* Increased padding */
@@ -103,6 +103,8 @@
                     <textarea name="body" placeholder="লিখুন..." style="font-size: 12px;"></textarea><br>
                     <input type="checkbox" id="anonymous" name="anonymous">
                     <label for="anonymous">অ্যানোনিমাস পোষ্ট</label><br>
+                    <label for="saveDraft">ড্রাফট হিসেবে সংরক্ষণ করুন</label>
+                    <input type="checkbox" name="saveDraft" id="saveDraft">
                     <button style="background-color: #591f614d; 
                  border: 1px solid rgb(23, 11, 29);
                  color: white;
@@ -119,10 +121,10 @@
             </div>
             <h2><strong>সব পোষ্ট</strong></h2>
             @foreach($posts->reverse() as $post)
-            {{-- @php
+            @php
                 $blocked = auth()->user() ? auth()->user()->isBlocking($post->user) : false;
             @endphp
-            @if(!$blocked) --}}
+            @if(!$blocked)
             <div style="background-color: rgb(185, 168, 214); padding: 10px; margin: 10px;font-size: 20px;">
                 {{-- <h3 style="display: inline-block;"><strong>{{$post->user->name}}</strong></h3> --}}
                 <div style="display: flex; justify-content: space-between;">
@@ -182,15 +184,15 @@
                 {{-- <h4 style="font-size: 15px"> Post created at: </h4> --}}
 
                 @if($post->reported)
-                                <button type="button" class="btn btn-danger">রিপোর্ট করা হয়েছে</button>
-                                @else
-                                <form action="{{ route('post.report', $post) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" onclick="return confirm('Are you sure you want to report this post?')" class="btn btn-danger">রিপোর্ট করুন</button>
-                                </form>
-                                @endif
+                    <button type="button" class="btn btn-danger">রিপোর্ট করা হয়েছে</button>
+                @else
+                    <form action="{{ route('post.report', $post) }}" method="POST">
+                        @csrf
+                        <button type="submit" onclick="return confirm('Are you sure you want to report this post?')" class="btn btn-danger">রিপোর্ট করুন</button>
+                    </form>
+                @endif
 
-                            </form>
+            </form>
                 
                 <div>
                     
@@ -227,66 +229,26 @@
                                 cursor: pointer;">কমেন্ট
                         </button>
                     </form>
-                </a>
+                {{--</a>--}}
 
 
                     
                     @if($post->comments->count() > 0)
-                    <strong style="font-size: 18px;">সব কমেন্ট ({{ $post->comments->count() }})</strong>
-                    {{-- <h2> সব কমেন্ট ({{ $post->comments->count() }})</h2> --}}
-                    <br>
-                    @foreach($post->comments as $comment)
-                        <div style="background-color: #d2b7e4; padding: 5px; margin-top: 5px;">
-                            <div>
-                            
-                            @if($comment->user)
-                                <b>{{ $comment->user->name }}</b>
-                            @else
-                                <b>{{$post->user->name}}</b>
-                            @endif
-                            {{ $comment->body }}
-                           
-                            <form action="{{ route('comment.delete', $comment) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" style="background-color: #591f614d; 
-                                        border: 1px solid rgb(23, 11, 29);
-                                        color: white;
-                                        padding: 3px 10px;
-                                        text-align: center;
-                                        text-decoration: none;
-                                        display: inline-block;
-                                        font-size: 16px;
-                                        cursor: pointer;">কমেন্ট মুছে ফেলুন
-                                </button>
-                                <p>
-                            </form>
-
-                            <form action="{{ route('comments.reply') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="comment_id" value="{{ $comment->id }}">
-                                <textarea name="body" placeholder="এখানে রিপ্লাই লিখুন.."style="font-size: 12px;"></textarea><p>
-                                <button type="submit" style="background-color: #591f614d; 
-                                        border: 1px solid rgb(23, 11, 29);
-                                        color: white;
-                                        padding: 3px 10px;
-                                        text-align: center;
-                                        text-decoration: none;
-                                        display: inline-block;
-                                        font-size: 16px;
-                                        cursor: pointer;">রিপ্লাই করুন
-                                </button>
-                            </form>
-                            <div>
-                            @foreach($comment->replies as $reply)
-                            {{-- <div> --}}
+                        <strong style="font-size: 18px;">সব কমেন্ট ({{ $post->comments->count() }})</strong>
+                        {{-- <h2> সব কমেন্ট ({{ $post->comments->count() }})</h2> --}}
+                        <br>
+                        @foreach($post->comments as $comment)
+                            <div style="background-color: #d2b7e4; padding: 5px; margin-top: 5px;">
+                                <div>
                                 
-                                @if($reply->user)
-                                <b>{{ $reply->user->name }}</b>
+                                @if($comment->user)
+                                    <b>{{ $comment->user->name }}</b>
+                                @else
+                                    <b>{{$post->user->name}}</b>
                                 @endif
-                                {{ $reply->body }}
-
-                                <form action="{{ route('reply.delete', $reply) }}" method="POST">
+                                {{ $comment->body }}
+                            
+                                <form action="{{ route('comment.delete', $comment) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" style="background-color: #591f614d; 
@@ -297,20 +259,60 @@
                                             text-decoration: none;
                                             display: inline-block;
                                             font-size: 16px;
-                                            cursor: pointer;">রিপ্লাই মুছে ফেলুন
+                                            cursor: pointer;">কমেন্ট মুছে ফেলুন
                                     </button>
                                     <p>
                                 </form>
-                            
-                            @endforeach
+
+                                <form action="{{ route('comments.reply') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="comment_id" value="{{ $comment->id }}">
+                                    <textarea name="body" placeholder="এখানে রিপ্লাই লিখুন.."style="font-size: 12px;"></textarea><p>
+                                    <button type="submit" style="background-color: #591f614d; 
+                                            border: 1px solid rgb(23, 11, 29);
+                                            color: white;
+                                            padding: 3px 10px;
+                                            text-align: center;
+                                            text-decoration: none;
+                                            display: inline-block;
+                                            font-size: 16px;
+                                            cursor: pointer;">রিপ্লাই করুন
+                                    </button>
+                                </form>
+                                <div>
+                                @foreach($comment->replies as $reply)
+                                {{-- <div> --}}
+                                    
+                                    @if($reply->user)
+                                    <b>{{ $reply->user->name }}</b>
+                                    @endif
+                                    {{ $reply->body }}
+
+                                    <form action="{{ route('reply.delete', $reply) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" style="background-color: #591f614d; 
+                                                border: 1px solid rgb(23, 11, 29);
+                                                color: white;
+                                                padding: 3px 10px;
+                                                text-align: center;
+                                                text-decoration: none;
+                                                display: inline-block;
+                                                font-size: 16px;
+                                                cursor: pointer;">রিপ্লাই মুছে ফেলুন
+                                        </button>
+                                        <p>
+                                    </form>
+                                
+                                @endforeach
+                                </div>
+
+
+                                
+
                             </div>
-
-
-                            
-
                         </div>
-                    </div>
-                    @endforeach
+                        @endforeach
                     @else
                         <p>এখনও কোনো কমেন্ট করা হয়নি।</p>
                     @endif
@@ -327,6 +329,23 @@
                     margin: 2px 1px;
                     cursor: pointer;">পরিবর্তন করুন</button>
                 </a>
+                @if(auth()->user() && auth()->user()->id !== $post->user->id && !$post->user->is(auth()->user()))
+                <form action="{{ $blocked ? route('user.unblock', $post->user->id) : route('user.block', $post->user->id) }}" method="POST" style="display: inline-block;">
+                    @csrf
+                    <button style="background-color: #591f614d; 
+                        border: 1px solid rgb(23, 11, 29);
+                        color: white;
+                        padding: 5px 32px;
+                        text-align: center;
+                        text-decoration: none;
+                        display: inline-block;
+                        font-size: 16px;
+                        margin: 2px 1px;
+                        cursor: pointer;">
+                        {{ $blocked ? 'Unblock' : 'Block' }}
+                    </button>
+                </form>
+                @endif
                 @if(auth()->check() && auth()->user()->id === $post->user->id)
                 <form action="/delete-post/{{ $post->id }}" method="POST">
                     @csrf
@@ -354,9 +373,10 @@
                         
                         <button type="submit">{{ $post->solved ? 'পোস্ট সমাধান করা হয়নি' : 'পোস্ট সমাধান করা হয়েছে' }}</button>
                     </form>
-@endif
+                @endif
             
             </div> 
+            @endif
             @endforeach
         </div>
     </div>
